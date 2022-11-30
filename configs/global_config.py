@@ -1,0 +1,1 @@
+global_info_share_num = 5
