@@ -70,8 +70,8 @@ def run_model(config):
 
     eval_dataset = eval_dataset_class(data_dir=eval_dir, data_file='info', num_shards=global_info_share_num)
 
-    train_data = train_dataset.create_loader(batch_size=1, shuffle=False, num_workers=config['num_workers'])
-    eval_data = eval_dataset.create_loader(batch_size=32, shuffle=False, num_workers=config['num_workers'])
+    train_data = train_dataset.create_loader_gpu(batch_size=1, shuffle=False, num_workers=config['num_workers'])
+    eval_data = eval_dataset.create_loader_gpu(batch_size=32, shuffle=False, num_workers=config['num_workers'])
 
     date_and_time = dt.now().strftime("%d-%m-%Y--%H-%M-%S")
 

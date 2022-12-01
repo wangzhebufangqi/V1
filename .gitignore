@@ -1,6 +1,6 @@
 *.pt
 
-datasets/
+*.csv
 
 experiments/wandb
 

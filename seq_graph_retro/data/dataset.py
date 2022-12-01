@@ -4,7 +4,7 @@ import os
 import joblib
 
 from seq_graph_retro.utils.parse import ReactionInfo
-
+from torch.utils.data.distributed import DistributedSampler
 
 class BaseDataset(torch.utils.data.Dataset):
     """BaseDataset is an abstract class that loads the saved tensor batches and
@@ -58,6 +58,14 @@ class BaseDataset(torch.utils.data.Dataset):
                                            shuffle=shuffle, num_workers=num_workers,
                                            collate_fn=self.collater)
 
+    def create_loader_gpu(self, batch_size: int, num_workers: int = 6,
+                          shuffle: bool = False) -> torch.utils.data.DataLoader:
+        return torch.utils.data.DataLoader(dataset=self,
+                                           batch_size=batch_size,
+                                           shuffle=shuffle,
+                                           sampler=DistributedSampler(self),
+                                           num_workers=num_workers,
+                                           collate_fn=self.collater)
 
 
 
@@ -133,6 +141,17 @@ class EvalDataset(torch.utils.data.Dataset):
         """
         return torch.utils.data.DataLoader(dataset=self, batch_size=batch_size,
                                            shuffle=shuffle, num_workers=num_workers,
+                                           collate_fn=self.collater)
+
+    def create_loader_gpu(self, batch_size: int, num_workers: int = 6,
+                          shuffle: bool = False) -> torch.utils.data.DataLoader:
+
+
+        return torch.utils.data.DataLoader(dataset=self,
+                                           batch_size=batch_size,
+                                           shuffle=shuffle,
+                                           sampler=DistributedSampler(self),
+                                           num_workers=num_workers,
                                            collate_fn=self.collater)
 
     def collater(self, attributes: List[Any]):
