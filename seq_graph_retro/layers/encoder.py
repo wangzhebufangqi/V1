@@ -182,6 +182,8 @@ class GraphFeatEncoder(nn.Module):
         hmess = torch.cat([fmess1, fmess2], dim=-1)
         return hnode, hmess, agraph, bgraph
 
+
+
     def forward(self, graph_tensors: Tuple[torch.Tensor], scopes: Scope) -> Tuple[torch.Tensor]:
         """
         Forward pass of the graph encoder. First the feature vectors are extracted,

@@ -436,5 +436,7 @@ class MultiEdit(nn.Module):
             if set(edits) == set(core_edits_batch[idx]):
                 accuracy += 1.0
 
+        accuracy = accuracy/len(core_edits_batch)
+
         metrics = {'loss': None, 'accuracy': accuracy}
         return loss, metrics
